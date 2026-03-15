@@ -1,16 +1,15 @@
 {
   "name": "travlr",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Travlr Getaways - CS465 Full Stack Project",
+  "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
   "dependencies": {
-    "express": "^5.2.1"
+    "express": "^4.18.2",
+    "express-handlebars": "^7.1.2",
+    "hbs": "^4.2.0",
+    "path": "^0.12.7"
   }
 }
