@@ -1,0 +1,20 @@
+<div class="card h-100">
+  <img [src]="'http://localhost:3000' + (trip.image || 'reef4.jpg')"
+       class="card-img-top"
+       alt="{{ trip.name }}">
+
+  <div class="card-body">
+    <h5 class="card-title">{{ trip.name }}</h5>
+    <h6 class="card-subtitle mb-2 text-muted">{{ trip.resort || 'No resort' }}</h6>
+
+    <p class="card-text">
+      {{ trip.length || 'N/A' }} • ${{ trip.perPerson || '0' }} per person
+    </p>
+
+    <p class="card-text" [innerHTML]="trip.description || 'No description'"></p>
+  </div>
+
+  <div class="card-footer text-center">
+    <button class="btn btn-primary" (click)="onEdit()">Edit Trip</button>
+  </div>
+</div>

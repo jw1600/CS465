@@ -1,0 +1,87 @@
+<div class="row">
+  <div class="col-12">
+    <h2 class="text-center">Our Trips</h2>
+  </div>
+</div>
+
+<div class="row">
+  <div *ngFor="let trip of trips; trackBy: trackByCode" class="col-md-4 mb-4">
+    <app-trip-card [trip]="trip" (editClicked)="editTrip(trip)"></app-trip-card>
+  </div>
+</div>
+
+<!-- Edit Form -->
+<div *ngIf="selectedTrip" class="mt-5 border p-4 bg-light">
+  <h3>Edit Trip: {{ selectedTrip.name }}</h3>
+  <form (ngSubmit)="saveEdit()">
+    <div class="mb-3">
+      <label>Code</label>
+      <input [(ngModel)]="selectedTrip.code" name="code" class="form-control" readonly>
+    </div>
+    <div class="mb-3">
+      <label>Name</label>
+      <input [(ngModel)]="selectedTrip.name" name="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Length</label>
+      <input [(ngModel)]="selectedTrip.length" name="length" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>Start Date</label>
+      <input type="date"
+             [value]="selectedTrip!.start ? selectedTrip!.start.split('T')[0] : ''"
+             (change)="selectedTrip!.start = $event.target.value + 'T08:00:00Z'"
+             class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>Resort</label>
+      <input [(ngModel)]="selectedTrip.resort" name="resort" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>Per Person Price</label>
+      <input [(ngModel)]="selectedTrip.perPerson" name="perPerson" class="form-control">
+    </div>
+    <button type="submit" class="btn btn-success">Save Update</button>
+    <button type="button" (click)="cancelEdit()" class="btn btn-secondary ms-2">Cancel</button>
+  </form>
+</div>
+
+<!-- Add New Trip Form -->
+<div class="mt-5 border p-4 bg-light">
+  <h3>Add New Trip</h3>
+  <form (ngSubmit)="addNewTrip()">
+    <div class="mb-3">
+      <label>Code <span class="text-danger">*</span></label>
+      <input [(ngModel)]="newTrip.code" name="code" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Name <span class="text-danger">*</span></label>
+      <input [(ngModel)]="newTrip.name" name="name" class="form-control" required>
+    </div>
+    <div class="mb-3">
+      <label>Length</label>
+      <input [(ngModel)]="newTrip.length" name="length" class="form-control" placeholder="4 nights / 5 days">
+    </div>
+    <div class="mb-3">
+      <label>Start Date</label>
+      <input type="date" [(ngModel)]="newTrip.start" name="start" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>Resort</label>
+      <input [(ngModel)]="newTrip.resort" name="resort" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>Per Person Price</label>
+      <input [(ngModel)]="newTrip.perPerson" name="perPerson" class="form-control">
+    </div>
+    <div class="mb-3">
+      <label>Image Filename</label>
+      <input [(ngModel)]="newTrip.image" name="image" class="form-control" placeholder="reef4.jpg">
+    </div>
+    <div class="mb-3">
+      <label>Description</label>
+      <textarea [(ngModel)]="newTrip.description" name="description" class="form-control" rows="3"></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Trip</button>
+  </form>
+</div>
