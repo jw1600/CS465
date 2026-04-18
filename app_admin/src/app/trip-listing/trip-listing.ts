@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { TripCardComponent } from '../trip-card/trip-card';
 import { TripDataService } from '../trip-data';
 import { Trip } from '../trip';
+import { AuthService } from '../auth';
 
 @Component({
   selector: 'app-trip-listing',
@@ -27,16 +28,19 @@ export class TripListingComponent implements OnInit {
     description: ''
   };
 
-trackByCode(index: number, trip: Trip): string {
-  return trip.code;
-}
   constructor(
     private tripDataService: TripDataService,
+    private authService: AuthService,
     private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit(): void {
     this.loadTrips();
+  }
+
+  
+  trackByCode(index: number, trip: Trip): string {
+    return trip.code;
   }
 
   loadTrips() {
@@ -50,7 +54,7 @@ trackByCode(index: number, trip: Trip): string {
   }
 
   editTrip(trip: Trip) {
-    this.selectedTrip = JSON.parse(JSON.stringify(trip));   
+    this.selectedTrip = JSON.parse(JSON.stringify(trip));
   }
 
   saveEdit() {
@@ -71,17 +75,16 @@ trackByCode(index: number, trip: Trip): string {
     this.selectedTrip = null;
   }
 
-    addNewTrip() {
-    const payload: Trip = {
-      code: this.newTrip.code || 'TEST' + Date.now(),
-      name: this.newTrip.name || 'New Trip',
-      length: this.newTrip.length || '4 nights / 5 days',
-      start: this.newTrip.start || '2026-05-01T08:00:00Z',
-      resort: this.newTrip.resort || 'Test Resort, 3 stars',
-      perPerson: this.newTrip.perPerson || '599.00',
-      image: this.newTrip.image || 'reef4.jpg',
-      description: this.newTrip.description || 'This is a test trip added from Angular'
-    };
+  addNewTrip() {
+    const payload = { ...this.newTrip };
+    if (!payload.code) payload.code = 'TEST' + Date.now();
+    if (!payload.name) payload.name = 'New Trip';
+    if (!payload.length) payload.length = '4 nights / 5 days';
+    if (!payload.start) payload.start = '2026-05-01T08:00:00Z';
+    if (!payload.resort) payload.resort = 'Test Resort';
+    if (!payload.perPerson) payload.perPerson = '599.00';
+    if (!payload.image) payload.image = 'reef4.jpg';
+    if (!payload.description) payload.description = 'Test description';
 
     this.tripDataService.addTrip(payload).subscribe({
       next: (newTrip) => {
@@ -92,5 +95,10 @@ trackByCode(index: number, trip: Trip): string {
       },
       error: (err) => console.error('Add failed', err)
     });
+  }
+
+  logout() {
+    this.authService.logout();
+    window.location.reload();
   }
 }

@@ -1,1 +1,9 @@
-<app-trip-listing></app-trip-listing>
+
+<div *ngIf="!isLoggedIn" class="container mt-5">
+  <app-login></app-login>
+</div>
+
+
+<div *ngIf="isLoggedIn">
+  <app-trip-listing></app-trip-listing>
+</div>
